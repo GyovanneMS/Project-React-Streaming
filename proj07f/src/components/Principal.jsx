@@ -16,7 +16,7 @@ const BarraImagem = styled.img`
   display: block;
   margin: 0 auto;
   height: 48px;
-`
+` 
 
 const Mensagem = styled.div`
   margin: 0 auto;

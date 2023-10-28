@@ -22,7 +22,6 @@ const ModeloLink = styled.a`
 export default function Navegacao() {
     return <Modelo>
         <ModeloImagem src="./logo.png" alt="logo"/>
-
         <ModeloLink href="#"> Início </ModeloLink>
         <ModeloLink href="#"> Filmes </ModeloLink>
         <ModeloLink href="#"> Séries </ModeloLink>
