@@ -1,7 +1,9 @@
 import express from "express";
-import { conteudo } from "./database/conteudo";
+import { conteudo } from "./database/conteudo.js";
 import { Types, isValidObjectId } from "mongoose";
 import Joi from "joi";
+import { usuario } from "./database/Usuario.js";
+import crypto from "crypto-js";
 
 const rotas = express.Router()
 
@@ -73,7 +75,7 @@ rotas.post("/conteudo", async function(req, res){
     })
 
     try {
-        const validado = await esquema.validadeAsync(corpo);
+        const validado = await esquema.validateAsync(corpo);
 
         const novoConteudo = conteudo(corpo)
 
@@ -84,6 +86,38 @@ rotas.post("/conteudo", async function(req, res){
             .catch(function(erro){
                 res.status(500).json({message: erro.message})
             });
+    }            
+    catch(erro){
+        res.status(400).json({message: erro.message})
+    }
+})
+
+rotas.post("/entrar", async function(req, res){
+    const corpo = req.body;
+
+    const esquema = Joi.object({
+        email: Joi.string().email().max(128).required(),
+        senha: Joi.string().required()
+    })
+
+    try {
+        const validado = await esquema.validateAsync(corpo);
+
+        usuario.findOne({
+            email: validado.email,
+            senha: crypto.SHA256(validado.senha).toString()
+        })
+        .then(function(resultado){
+            if(resultado){
+                res.sendStatus(202)
+            } else {
+                res.sendStatus(401)
+            }
+        })
+        .catch(function(erro){
+            res.status(500).json({message: erro.message})
+        });
+
     }            
     catch(erro){
         res.status(400).json({message: erro.message})

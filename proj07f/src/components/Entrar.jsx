@@ -19,3 +19,16 @@ const FormularioTitulo = styled.div`
   font-weight: bold;
   text-align: center;
 `
+
+export default function Entrar(){
+  return <Modelo>
+      <Formulario action="/explorar" method="GET">
+          <FormularioTitulo>
+            Entrar
+          </FormularioTitulo>
+          <input type="text" placeholder="Email" required />
+          <input type="password" placeholder="********" required />
+          <input type="submit" value="Entrar" />
+      </Formulario>
+  </Modelo>
+}
